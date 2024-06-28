@@ -6,7 +6,7 @@ const passportInstance = new passport.Passport({
     publishableKey: process.env.NEXT_PUBLIC_IMX_PASSPORT_PUB_KEY, // replace with your publishable API key from Hub
   },
   clientId: process.env.NEXT_PUBLIC_IMX_PASSPORT_CLIENT_ID!, // replace with your client ID from Hub
-  redirectUri: "https://baboon-active-pika.ngrok-free.app/oauth/illuvium/redirect", // replace with one of your redirect URIs from Hub
+  redirectUri: "http://localhost:3000/oauth/illuvium/redirect", // replace with one of your redirect URIs from Hub
   logoutRedirectUri: "https://localhost:3000/oauth/imx/passport/logout", // replace with one of your logout URIs from Hub
   audience: "platform_api",
   scope: "openid offline_access email transact",

@@ -1,11 +1,11 @@
 "use client";
 
-import { Home } from "@/components/promptwars/home/Home";
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 import passport from "@/lib/illuvium/passport";
 
 export default function Page() {
-  useLayoutEffect(() => {
+  useEffect(() => {
+    console.log("CALLING LOGINCALLBACK");
     (async () => {
       try {
         await passport.passportInstance.loginCallback();
@@ -15,5 +15,9 @@ export default function Page() {
     })();
   }, []);
 
-  return <Home />;
+  return (
+    <div className="min-h-screen flex flex-col justify-center">
+      <p>Redirect Page</p>
+    </div>
+  );
 }

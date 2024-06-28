@@ -8,9 +8,9 @@
       "name": "Next.js: debug server-side",
       "type": "node-terminal",
       "request": "launch",
-      "cwd": "${workspaceRoot}/app",
-      "envFile": "${workspaceFolder}/app/.env",
-      "command": "yarn run dev:debug"
+      "cwd": "${workspaceRoot}",
+      "envFile": "${workspaceFolder}/.env",
+      "command": "npm run dev"
     }
   ]
 }
