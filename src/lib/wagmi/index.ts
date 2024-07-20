@@ -12,6 +12,8 @@ const config = createConfig({
   },
 });
 
-export default {
+const e = {
   defaultConfig: config,
 };
+
+export default e;

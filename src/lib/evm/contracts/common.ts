@@ -57,8 +57,8 @@ export type ViewOverrides = Omit<TransactionRequest, "to" | "data">;
 export type Overrides<S extends StateMutability> = S extends "nonpayable"
   ? NonPayableOverrides
   : S extends "payable"
-  ? PayableOverrides
-  : ViewOverrides;
+    ? PayableOverrides
+    : ViewOverrides;
 
 export type PostfixOverrides<A extends Array<any>, S extends StateMutability> = A | [...A, Overrides<S>];
 export type ContractMethodArgs<A extends Array<any>, S extends StateMutability> = PostfixOverrides<
@@ -74,9 +74,9 @@ export interface TypedContractMethod<
   R = any,
   S extends StateMutability = "payable",
 > {
-  (...args: ContractMethodArgs<A, S>): S extends "view"
-    ? Promise<DefaultReturnType<R>>
-    : Promise<ContractTransactionResponse>;
+  (
+    ...args: ContractMethodArgs<A, S>
+  ): S extends "view" ? Promise<DefaultReturnType<R>> : Promise<ContractTransactionResponse>;
 
   name: string;
 
