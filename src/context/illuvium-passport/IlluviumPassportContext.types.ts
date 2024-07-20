@@ -5,5 +5,6 @@ export type IlluviumPassportContextControllerProps = {
 };
 
 export type IlluviumPassportContextType = {
-  login: () => Promise<void>
+  login: () => Promise<void>;
+  loginCallback: () => Promise<void>;
 };

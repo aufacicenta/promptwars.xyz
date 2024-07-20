@@ -1,22 +1,19 @@
 "use client";
 
 import { useEffect } from "react";
-import passport from "@/lib/illuvium/passport";
+import { useIlluviumPassportContext } from "@/context/illuvium-passport/useIlluviumPassportContext";
 
 export default function Page() {
+  const passportContext = useIlluviumPassportContext();
+
   useEffect(() => {
-    console.log("CALLING LOGINCALLBACK");
     (async () => {
-      try {
-        await passport.passportInstance.loginCallback();
-      } catch (error) {
-        console.error(error);
-      }
+      await passportContext.loginCallback();
     })();
-  }, []);
+  }, [passportContext]);
 
   return (
-    <div className="min-h-screen flex flex-col justify-center">
+    <div className="flex min-h-screen flex-col justify-center">
       <p>Redirect Page</p>
     </div>
   );
