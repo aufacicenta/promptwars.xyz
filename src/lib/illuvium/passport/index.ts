@@ -1,3 +1,4 @@
+import { routes } from "@/hooks/useRoutes/useRoutes";
 import { config, passport } from "@imtbl/sdk";
 
 const passportInstance = new passport.Passport({
@@ -6,8 +7,8 @@ const passportInstance = new passport.Passport({
     publishableKey: process.env.NEXT_PUBLIC_IMX_PASSPORT_PUB_KEY, // replace with your publishable API key from Hub
   },
   clientId: process.env.NEXT_PUBLIC_IMX_PASSPORT_CLIENT_ID!, // replace with your client ID from Hub
-  redirectUri: "http://localhost:3000/oauth/illuvium/redirect", // replace with one of your redirect URIs from Hub
-  logoutRedirectUri: "https://localhost:3000/oauth/imx/passport/logout", // replace with one of your logout URIs from Hub
+  redirectUri: routes.oauth.illuvium.passport.redirectUri(), // replace with one of your redirect URIs from Hub
+  logoutRedirectUri: routes.oauth.illuvium.passport.logoutRedirectUri(), // replace with one of your logout URIs from Hub
   audience: "platform_api",
   scope: "openid offline_access email transact",
   popupOverlayOptions: {
