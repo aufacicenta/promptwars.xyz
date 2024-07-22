@@ -5,7 +5,7 @@ import { localPublicClient, localWalletClient } from "./localViemClient";
 const getBlockExplorerUrl = () =>
   process.env.NEXT_PUBLIC_DEFAULT_NETWORK_ENV === "testnet" ? "https://sepolia.etherscan.io" : "https://etherscan.io";
 
-export default {
+const e = {
   ERC721Instance,
   getBlockExplorerUrl,
   format: {
@@ -16,3 +16,5 @@ export default {
     localWalletClient,
   },
 };
+
+export default e;

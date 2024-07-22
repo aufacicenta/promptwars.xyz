@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/member-ordering */
 import { Client, getContract } from "viem";
 import axios from "axios";
-
-import { ZeroXAddress } from "context/evm/wallet-selector/EvmWalletSelectorContext.types";
+import { ZeroXAddress } from "@/context/wallet-selector/EvmWalletSelectorContext.types";
 
 export const SEPOLIA_TESTNET_ADDRESS = "0xB63dB681223223379d15eB7d6E21fDeEeE4ac0D8";
 export const ETHEREUM_MAINNET_ADDRESS = "0x853bdaa30Cfd5A2Ec1E1d75935eBca7A0E52626D";
