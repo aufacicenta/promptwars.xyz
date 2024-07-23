@@ -2,7 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type UserCreate = {
-    ethereum_address: string;
+export type CreditBalanceResponse = {
+    balance: number;
+    wallet_address: (string | null);
 };
 

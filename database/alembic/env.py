@@ -9,9 +9,8 @@ sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from src.database import Base
 from src.models.user import User
+from src.models.credit import CreditBalance, UserWallet
 
-from src.models import Base  # This now imports from models/__init__.py
-from src.models.user import User  # Explicitly import User model
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool

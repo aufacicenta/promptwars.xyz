@@ -17,13 +17,13 @@ export const WalletSelector: React.FC<WalletSelectorProps> = ({ className }) => 
   useEffect(() => {
     if (!isConnected || !address) return;
 
-    try {
-      (async () => {
+    (async () => {
+      try {
         await UsersService.createUserUsersPost({ ethereum_address: address! });
-      })();
-    } catch (error) {
-      console.error(error);
-    }
+      } catch (error) {
+        console.error(error);
+      }
+    })();
   }, [isConnected, address]);
 
   const handleOnDisplayWidgetClick = () => {

@@ -15,6 +15,9 @@ export const routes = {
     x2y2: () => `https://x2y2.io/collection/larskristo-hellheadz/items`,
     looksrare: () => `https://looksrare.org/collections/0x853bdaa30Cfd5A2Ec1E1d75935eBca7A0E52626D`,
   },
+  profile: {
+    credits: () => `/profile/credits`,
+  },
   socials: {
     discord: `https://discord.gg/y3GWNkRh`,
   },

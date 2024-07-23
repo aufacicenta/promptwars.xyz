@@ -7,8 +7,10 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { CreditBalanceResponse } from './models/CreditBalanceResponse';
 export type { HTTPValidationError } from './models/HTTPValidationError';
 export type { UserCreate } from './models/UserCreate';
 export type { ValidationError } from './models/ValidationError';
 
+export { CreditsService } from './services/CreditsService';
 export { UsersService } from './services/UsersService';

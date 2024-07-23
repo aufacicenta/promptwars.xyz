@@ -83,10 +83,78 @@
                     }
                 }
             }
+        },
+        "/credits/{user_id}": {
+            "get": {
+                "tags": [
+                    "credits"
+                ],
+                "summary": "Get Credit Balance",
+                "operationId": "get_credit_balance_credits__user_id__get",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid",
+                            "title": "User Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreditBalanceResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
+            "CreditBalanceResponse": {
+                "properties": {
+                    "balance": {
+                        "type": "number",
+                        "title": "Balance"
+                    },
+                    "wallet_address": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Wallet Address"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "balance",
+                    "wallet_address"
+                ],
+                "title": "CreditBalanceResponse"
+            },
             "HTTPValidationError": {
                 "properties": {
                     "detail": {

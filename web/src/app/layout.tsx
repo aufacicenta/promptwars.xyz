@@ -5,6 +5,7 @@ import { Navbar } from "@/components/navbar/Navbar";
 import { IlluviumPassportContextController } from "@/context/illuvium-passport/IlluviumPassportContextController";
 import { EvmWalletSelectorContextController } from "@/context/wallet-selector/EvmWalletSelectorContextController";
 import { AuthorizationContextController } from "@/context/authorization/AuthorizationContextController";
+import { UserCreditsContextController } from "@/context/user-credits/UserCreditsContextController";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,9 +25,11 @@ export default function RootLayout({
         <AuthorizationContextController>
           <EvmWalletSelectorContextController>
             <IlluviumPassportContextController>
-              <Navbar />
+              <UserCreditsContextController>
+                <Navbar />
 
-              <main>{children}</main>
+                <main>{children}</main>
+              </UserCreditsContextController>
             </IlluviumPassportContextController>
           </EvmWalletSelectorContextController>
         </AuthorizationContextController>
