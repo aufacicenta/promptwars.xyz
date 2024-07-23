@@ -1,7 +1,11 @@
+import { ZeroXAddress } from "@/context/wallet-selector/EvmWalletSelectorContext.types";
+
 export const origin =
   process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
     ? `${process.env.NEXT_PUBLIC_PROTOCOL_SCHEME}://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`
     : `${process.env.NEXT_PUBLIC_PROTOCOL_SCHEME}://${process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL}`;
+
+export const apiOrigin = `${process.env.NEXT_PUBLIC_PROTOCOL_SCHEME}://${process.env.NEXT_PUBLIC_API_URL}`;
 
 export const routes = {
   home: () => `/`,
@@ -41,6 +45,10 @@ export const routes = {
         authorize: () => `/api/oauth/discord/authorize`,
         callback: () => `${origin}/api/oauth/discord/callback`,
       },
+    },
+    users: {
+      createUser: () => `${apiOrigin}/users`,
+      getUser: (ethereumAddress: ZeroXAddress) => `${apiOrigin}/${ethereumAddress}`,
     },
   },
 };

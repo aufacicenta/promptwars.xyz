@@ -8,8 +8,8 @@
       "name": "Next.js: debug server-side",
       "type": "node-terminal",
       "request": "launch",
-      "cwd": "${workspaceRoot}",
-      "envFile": "${workspaceFolder}/.env",
+      "cwd": "${workspaceRoot}/web",
+      "envFile": "${workspaceFolder}/web/.env",
       "command": "npm run dev"
     }
   ]

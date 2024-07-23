@@ -7,10 +7,24 @@ import evm from "@/lib/evm";
 import { WalletSelectorProps } from "./WalletSelector.types";
 import { Button } from "../ui/button";
 import { WalletMinimal } from "lucide-react";
+import { useEffect } from "react";
+import { UsersService } from "@/lib/api-client";
 
 export const WalletSelector: React.FC<WalletSelectorProps> = ({ className }) => {
   const { open } = useWeb3Modal();
   const { address, isConnected } = useAccount();
+
+  useEffect(() => {
+    if (!isConnected || !address) return;
+
+    try {
+      (async () => {
+        await UsersService.createUserUsersPost({ ethereum_address: address! });
+      })();
+    } catch (error) {
+      console.error(error);
+    }
+  }, [isConnected, address]);
 
   const handleOnDisplayWidgetClick = () => {
     if (isConnected) {
