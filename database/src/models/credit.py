@@ -4,6 +4,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 from ..database import Base
+import decimal
 
 
 class CreditBalance(Base):
@@ -20,7 +21,7 @@ class CreditBalance(Base):
     user = relationship("User", back_populates="credit_balance")
 
     def add_credits(self, amount):
-        self.balance += amount
+        self.balance += decimal.Decimal(amount)
         self.updated_at = func.now()
 
 

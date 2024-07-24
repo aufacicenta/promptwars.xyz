@@ -27,7 +27,9 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserCreateResponse"
+                                }
                             }
                         }
                     },
@@ -67,7 +69,9 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserGetResponse"
+                                }
                             }
                         }
                     },
@@ -180,6 +184,42 @@
                     "ethereum_address"
                 ],
                 "title": "UserCreate"
+            },
+            "UserCreateResponse": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "ethereum_address": {
+                        "type": "string",
+                        "title": "Ethereum Address"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "ethereum_address"
+                ],
+                "title": "UserCreateResponse"
+            },
+            "UserGetResponse": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "title": "Id"
+                    },
+                    "ethereum_address": {
+                        "type": "string",
+                        "title": "Ethereum Address"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "ethereum_address"
+                ],
+                "title": "UserGetResponse"
             },
             "ValidationError": {
                 "properties": {

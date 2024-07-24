@@ -3,6 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { UserCreate } from '../models/UserCreate';
+import type { UserCreateResponse } from '../models/UserCreateResponse';
+import type { UserGetResponse } from '../models/UserGetResponse';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -10,12 +12,12 @@ export class UsersService {
     /**
      * Create User
      * @param requestBody
-     * @returns any Successful Response
+     * @returns UserCreateResponse Successful Response
      * @throws ApiError
      */
     public static createUserUsersPost(
         requestBody: UserCreate,
-    ): CancelablePromise<any> {
+    ): CancelablePromise<UserCreateResponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/users/',
@@ -29,12 +31,12 @@ export class UsersService {
     /**
      * Get User
      * @param ethereumAddress
-     * @returns any Successful Response
+     * @returns UserGetResponse Successful Response
      * @throws ApiError
      */
     public static getUserUsersEthereumAddressGet(
         ethereumAddress: string,
-    ): CancelablePromise<any> {
+    ): CancelablePromise<UserGetResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/users/{ethereum_address}',

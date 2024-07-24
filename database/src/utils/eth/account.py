@@ -2,13 +2,10 @@ from eth_account import Account
 from eth_account.signers.local import LocalAccount
 import os
 from eth_utils import to_checksum_address
-from web3 import Web3
 from web3.middleware import construct_sign_and_send_raw_middleware
+from .w3 import w3
 
 SERVER_PRIVATE_KEY = os.getenv("SERVER_ETH_PRIVATE_KEY")
-INFURA_PROJECT_ID = os.getenv("INFURA_PROJECT_ID")
-
-w3 = Web3(Web3.HTTPProvider(f"https://mainnet.infura.io/v3/{INFURA_PROJECT_ID}"))
 
 
 def generate_user_wallet(user_id: str) -> str:
