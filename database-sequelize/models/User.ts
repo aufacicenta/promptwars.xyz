@@ -17,9 +17,11 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
         },
         createdAt: {
           type: DataTypes.DATE,
+          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         },
         updatedAt: {
           type: DataTypes.DATE,
+          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
         },
       },
       {
