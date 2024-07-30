@@ -1,5 +1,18 @@
 import type { Sequelize } from "sequelize";
+import { User } from "./User";
+import { Credit } from "./Credit";
 
-export function initModels(_sequelize: Sequelize) {
-  return {};
+export { User, Credit };
+
+export function initModels(sequelize: Sequelize) {
+  User.initModel(sequelize);
+  Credit.initModel(sequelize);
+
+  User.associate();
+  Credit.associate();
+
+  return {
+    User,
+    Credit,
+  };
 }
