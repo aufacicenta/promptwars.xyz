@@ -1,6 +1,7 @@
 import { CreationOptional, DataTypes, InferCreationAttributes, InferAttributes, Model, Sequelize } from "sequelize";
 import { Credit } from "./Credit";
 import { Wallet } from "./Wallet";
+import { Transaction } from "./Transaction";
 
 export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: CreationOptional<string>;
@@ -44,6 +45,10 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
     User.hasOne(Wallet, {
       foreignKey: "user_id",
       as: "wallet",
+    });
+    User.hasMany(Transaction, {
+      foreignKey: "user_id",
+      as: "transactions",
     });
   }
 }
