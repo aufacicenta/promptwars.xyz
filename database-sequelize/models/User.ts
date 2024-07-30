@@ -39,4 +39,16 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
       as: "credits",
     });
   }
+
+  static initModel(sequelize: Sequelize): typeof User {
+    return User.init(
+      {
+        // ... other fields ...
+      },
+      {
+        sequelize,
+        tableName: 'Users',
+      }
+    );
+  }
 }

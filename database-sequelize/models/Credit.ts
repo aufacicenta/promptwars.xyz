@@ -17,7 +17,7 @@ export class Credit extends Model<InferAttributes<Credit>, InferCreationAttribut
   declare updatedAt: CreationOptional<Date>;
 
   static initModel(sequelize: Sequelize): typeof Credit {
-    const credit = Credit.init(
+    return Credit.init(
       {
         id: {
           type: DataTypes.UUID,
@@ -50,10 +50,9 @@ export class Credit extends Model<InferAttributes<Credit>, InferCreationAttribut
       },
       {
         sequelize,
-      },
+        tableName: 'Credits',
+      }
     );
-
-    return credit;
   }
 
   static associate() {
