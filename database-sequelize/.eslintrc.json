@@ -8,5 +8,13 @@
       { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
     ],
     "prettier/prettier": "error"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["migrations/*.js"],
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off"
+      }
+    }
+  ]
 }
