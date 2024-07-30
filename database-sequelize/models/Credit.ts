@@ -11,10 +11,10 @@ import { User } from "./User";
 
 export class Credit extends Model<InferAttributes<Credit>, InferCreationAttributes<Credit>> {
   declare id: CreationOptional<string>;
-  declare userId: ForeignKey<User["id"]>;
+  declare user_id: ForeignKey<User["id"]>;
   declare balance: number;
-  declare createdAt: CreationOptional<Date>;
-  declare updatedAt: CreationOptional<Date>;
+  declare created_at: CreationOptional<Date>;
+  declare updated_at: CreationOptional<Date>;
 
   static initModel(sequelize: Sequelize): typeof Credit {
     return Credit.init(
@@ -26,7 +26,7 @@ export class Credit extends Model<InferAttributes<Credit>, InferCreationAttribut
           unique: true,
           defaultValue: DataTypes.UUIDV4,
         },
-        userId: {
+        user_id: {
           type: DataTypes.UUID,
           allowNull: false,
           references: {
@@ -39,11 +39,11 @@ export class Credit extends Model<InferAttributes<Credit>, InferCreationAttribut
           allowNull: false,
           defaultValue: 0,
         },
-        createdAt: {
+        created_at: {
           type: DataTypes.DATE,
           defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
         },
-        updatedAt: {
+        updated_at: {
           type: DataTypes.DATE,
           defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
         },
@@ -57,7 +57,7 @@ export class Credit extends Model<InferAttributes<Credit>, InferCreationAttribut
 
   static associate() {
     Credit.belongsTo(User, {
-      foreignKey: "userId",
+      foreignKey: "user_id",
       as: "user",
     });
   }
