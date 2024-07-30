@@ -1,4 +1,5 @@
 import { CreationOptional, DataTypes, InferCreationAttributes, InferAttributes, Model, Sequelize } from "sequelize";
+import { Credit } from "./Credit";
 
 export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: CreationOptional<string>;
@@ -6,7 +7,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   declare updatedAt: CreationOptional<Date>;
 
   static initModel(sequelize: Sequelize): typeof User {
-    User.init(
+    const user = User.init(
       {
         id: {
           type: DataTypes.UUID,
@@ -29,6 +30,13 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
       },
     );
 
-    return User;
+    return user;
+  }
+
+  static associate() {
+    User.hasMany(Credit, {
+      foreignKey: "userId",
+      as: "credits",
+    });
   }
 }

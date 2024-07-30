@@ -1,13 +1,23 @@
-import { CreationOptional, DataTypes, InferCreationAttributes, InferAttributes, Model, Sequelize } from "sequelize";
+import {
+  CreationOptional,
+  DataTypes,
+  InferCreationAttributes,
+  InferAttributes,
+  Model,
+  Sequelize,
+  ForeignKey,
+} from "sequelize";
+import { User } from "./User";
 
 export class Credit extends Model<InferAttributes<Credit>, InferCreationAttributes<Credit>> {
   declare id: CreationOptional<string>;
+  declare userId: ForeignKey<User["id"]>;
   declare balance: number;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
 
   static initModel(sequelize: Sequelize): typeof Credit {
-    Credit.init(
+    const credit = Credit.init(
       {
         id: {
           type: DataTypes.UUID,
@@ -15,6 +25,14 @@ export class Credit extends Model<InferAttributes<Credit>, InferCreationAttribut
           allowNull: false,
           unique: true,
           defaultValue: DataTypes.UUIDV4,
+        },
+        userId: {
+          type: DataTypes.UUID,
+          allowNull: false,
+          references: {
+            model: "Users",
+            key: "id",
+          },
         },
         balance: {
           type: DataTypes.DECIMAL(10, 2),
@@ -35,6 +53,13 @@ export class Credit extends Model<InferAttributes<Credit>, InferCreationAttribut
       },
     );
 
-    return Credit;
+    return credit;
+  }
+
+  static associate() {
+    Credit.belongsTo(User, {
+      foreignKey: "userId",
+      as: "user",
+    });
   }
 }
