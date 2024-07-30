@@ -30,7 +30,7 @@ export class Credit extends Model<InferAttributes<Credit>, InferCreationAttribut
           type: DataTypes.UUID,
           allowNull: false,
           references: {
-            model: "Users",
+            model: "User",
             key: "id",
           },
         },
