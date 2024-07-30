@@ -26,6 +26,8 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
         },
       },
       {
+        schema: "auth",
+        tableName: "users",
         sequelize,
       },
     );
@@ -38,17 +40,5 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
       foreignKey: "userId",
       as: "credits",
     });
-  }
-
-  static initModel(sequelize: Sequelize): typeof User {
-    return User.init(
-      {
-        // ... other fields ...
-      },
-      {
-        sequelize,
-        tableName: 'Users',
-      }
-    );
   }
 }

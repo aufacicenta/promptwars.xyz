@@ -50,8 +50,8 @@ export class Credit extends Model<InferAttributes<Credit>, InferCreationAttribut
       },
       {
         sequelize,
-        tableName: 'Credits',
-      }
+        tableName: "credits",
+      },
     );
   }
 
