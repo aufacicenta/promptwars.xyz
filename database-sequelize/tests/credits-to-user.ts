@@ -1,10 +1,10 @@
-import { Sequelize } from 'sequelize';
-import { User } from '../models/User';
-import { Credit } from '../models/Credit';
+import { Sequelize } from "sequelize";
+import { User } from "../models/User";
+import { Credit } from "../models/Credit";
 
 async function testRelationships() {
   // Initialize Sequelize
-  const sequelize = new Sequelize('sqlite::memory:', { logging: console.log });
+  const sequelize = new Sequelize("sqlite::memory:", { logging: console.log });
 
   // Initialize models
   User.initModel(sequelize);
@@ -20,29 +20,28 @@ async function testRelationships() {
   try {
     // Create a user
     const user = await User.create({});
-    console.log('Created user:', user.toJSON());
+    console.log("Created user:", user.toJSON());
 
     // Create a credit for the user
     const credit = await Credit.create({
       user_id: user.id,
-      balance: 100.00
+      balance: 100.0,
     });
-    console.log('Created credit:', credit.toJSON());
+    console.log("Created credit:", credit.toJSON());
 
     // Fetch user with associated credits
     const userWithCredits = await User.findByPk(user.id, {
-      include: ['credits']
+      include: ["credits"],
     });
-    console.log('User with credits:', userWithCredits?.toJSON());
+    console.log("User with credits:", userWithCredits?.toJSON());
 
     // Fetch credit with associated user
     const creditWithUser = await Credit.findByPk(credit.id, {
-      include: ['user']
+      include: ["user"],
     });
-    console.log('Credit with user:', creditWithUser?.toJSON());
-
+    console.log("Credit with user:", creditWithUser?.toJSON());
   } catch (error) {
-    console.error('Test failed:', error);
+    console.error("Test failed:", error);
   } finally {
     await sequelize.close();
   }

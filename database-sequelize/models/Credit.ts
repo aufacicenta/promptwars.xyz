@@ -32,7 +32,7 @@ export class Credit extends Model<InferAttributes<Credit>, InferCreationAttribut
           references: {
             model: {
               tableName: "users",
-              schema: "auth"
+              schema: "auth",
             },
             key: "id",
           },

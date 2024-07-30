@@ -14,14 +14,17 @@ module.exports = {
         type: Sequelize.UUID,
         allowNull: false,
         references: {
-          model: 'users',
+          model: {
+            tableName: "users",
+            schema: "auth"
+          },
           key: 'id',
         },
       },
       balance: {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
-        defaultValue: 0,
+        defaultValue: 3,
       },
       created_at: {
         type: Sequelize.DATE,
