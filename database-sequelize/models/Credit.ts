@@ -37,7 +37,7 @@ export class Credit extends Model<InferAttributes<Credit>, InferCreationAttribut
         balance: {
           type: DataTypes.DECIMAL(10, 2),
           allowNull: false,
-          defaultValue: 0,
+          defaultValue: 3,
         },
         created_at: {
           type: DataTypes.DATE,
