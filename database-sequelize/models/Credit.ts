@@ -30,7 +30,10 @@ export class Credit extends Model<InferAttributes<Credit>, InferCreationAttribut
           type: DataTypes.UUID,
           allowNull: false,
           references: {
-            model: "User",
+            model: {
+              tableName: "users",
+              schema: "auth"
+            },
             key: "id",
           },
         },
@@ -59,6 +62,7 @@ export class Credit extends Model<InferAttributes<Credit>, InferCreationAttribut
     Credit.belongsTo(User, {
       foreignKey: "user_id",
       as: "user",
+      targetKey: "id",
     });
   }
 }
