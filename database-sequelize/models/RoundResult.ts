@@ -1,15 +1,15 @@
-import { Model, DataTypes, Sequelize, InferAttributes, InferCreationAttributes } from "sequelize";
+import { Model, DataTypes, Sequelize, InferAttributes, InferCreationAttributes, CreationOptional } from "sequelize";
 import { Round } from "./Round";
 import { User } from "./User";
 
 export class RoundResult extends Model<InferAttributes<RoundResult>, InferCreationAttributes<RoundResult>> {
-  declare id: string;
+  declare id: CreationOptional<string>;
   declare round_id: string;
   declare user_id: string | null;
   declare winner_distribution: number;
-  declare credits_earned: number;
-  declare created_at: Date;
-  declare updated_at: Date;
+  declare credits_earned: CreationOptional<number>;
+  declare created_at: CreationOptional<Date>;
+  declare updated_at: CreationOptional<Date>;
 
   static initModel(sequelize: Sequelize): typeof RoundResult {
     RoundResult.init(
@@ -34,6 +34,7 @@ export class RoundResult extends Model<InferAttributes<RoundResult>, InferCreati
         credits_earned: {
           type: DataTypes.INTEGER,
           allowNull: false,
+          defaultValue: 0,
         },
         created_at: {
           type: DataTypes.DATE,

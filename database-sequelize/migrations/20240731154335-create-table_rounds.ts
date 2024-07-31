@@ -25,6 +25,7 @@ module.exports = {
       total_credits: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        defaultValue: 0,
       },
       created_at: {
         type: Sequelize.DATE,

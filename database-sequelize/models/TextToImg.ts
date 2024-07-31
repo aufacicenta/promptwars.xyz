@@ -1,11 +1,11 @@
-import { Model, DataTypes, Sequelize, InferAttributes, InferCreationAttributes } from "sequelize";
+import { Model, DataTypes, Sequelize, InferAttributes, InferCreationAttributes, CreationOptional } from "sequelize";
 
 export class TextToImg extends Model<InferAttributes<TextToImg>, InferCreationAttributes<TextToImg>> {
-  declare id: string;
+  declare id: CreationOptional<string>;
   declare provider: string;
   declare model: string;
-  declare created_at: Date;
-  declare updated_at: Date;
+  declare created_at: CreationOptional<Date>;
+  declare updated_at: CreationOptional<Date>;
 
   static initModel(sequelize: Sequelize): typeof TextToImg {
     TextToImg.init(
