@@ -1,19 +1,19 @@
-import { Model, DataTypes, Sequelize, InferAttributes, InferCreationAttributes } from "sequelize";
+import { Model, DataTypes, Sequelize, InferAttributes, InferCreationAttributes, CreationOptional } from "sequelize";
 import { Round } from "./Round";
 import { User } from "./User";
 import { TextToImg } from "./TextToImg";
 
 export class Prompt extends Model<InferAttributes<Prompt>, InferCreationAttributes<Prompt>> {
-  declare id: string;
+  declare id: CreationOptional<string>;
   declare user_id: string;
   declare round_id: string;
   declare text_to_img_id: string;
   declare prompt_text: string;
   declare negative_prompt: string | null;
   declare image_url: string;
-  declare similarity_score: number | null;
-  declare created_at: Date;
-  declare updated_at: Date;
+  declare similarity_score: CreationOptional<number | null>;
+  declare created_at: CreationOptional<Date>;
+  declare updated_at: CreationOptional<Date>;
 
   static initModel(sequelize: Sequelize): typeof Prompt {
     Prompt.init(

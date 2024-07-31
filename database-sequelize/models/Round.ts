@@ -1,5 +1,6 @@
 import { Model, DataTypes, Sequelize, InferAttributes, InferCreationAttributes, CreationOptional } from "sequelize";
 import { RoundResult } from "./RoundResult";
+import { Prompt } from "./Prompt";
 
 export class Round extends Model<InferAttributes<Round>, InferCreationAttributes<Round>> {
   declare id: CreationOptional<string>;
@@ -75,5 +76,20 @@ export class Round extends Model<InferAttributes<Round>, InferCreationAttributes
       attributes: ["user_id"],
     });
     return results.every((result) => result.user_id !== null);
+  }
+
+  async updateTotalCredits(): Promise<Round> {
+    const creditCost = this.credit_cost;
+
+    const players = await Prompt.findAll({
+      where: { round_id: this.id },
+      attributes: ["user_id"],
+    });
+
+    const totalCredits = creditCost * players.length;
+
+    await this.update({ total_credits: totalCredits });
+
+    return this;
   }
 }
