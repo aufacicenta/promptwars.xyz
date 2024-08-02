@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar/Navbar";
-import { IlluviumPassportContextController } from "@/context/illuvium-passport/IlluviumPassportContextController";
 import { EvmWalletSelectorContextController } from "@/context/wallet-selector/EvmWalletSelectorContextController";
 import { AuthorizationContextController } from "@/context/authorization/AuthorizationContextController";
 import { UserCreditsContextController } from "@/context/user-credits/UserCreditsContextController";
@@ -25,15 +24,13 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthorizationContextController>
           <EvmWalletSelectorContextController>
-            <IlluviumPassportContextController>
-              <WebsocketsContextController>
-                <UserCreditsContextController>
-                  <Navbar />
+            <WebsocketsContextController>
+              <UserCreditsContextController>
+                <Navbar />
 
-                  <main>{children}</main>
-                </UserCreditsContextController>
-              </WebsocketsContextController>
-            </IlluviumPassportContextController>
+                <main>{children}</main>
+              </UserCreditsContextController>
+            </WebsocketsContextController>
           </EvmWalletSelectorContextController>
         </AuthorizationContextController>
       </body>
