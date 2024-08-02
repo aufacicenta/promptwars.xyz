@@ -1,16 +1,27 @@
-import { Model, DataTypes, Sequelize, InferAttributes, InferCreationAttributes, CreationOptional } from "sequelize";
+import { Model, DataTypes, Sequelize, CreationOptional } from "sequelize";
 import { RoundResult } from "./RoundResult";
 import { Prompt } from "./Prompt";
 
-export class Round extends Model<InferAttributes<Round>, InferCreationAttributes<Round>> {
+export type RoundAttributes = {
+  id?: string;
+  starts_at: Date;
+  ends_at: Date;
+  credit_cost?: number;
+  total_credits?: number;
+  src_img_url: string;
+  created_at?: Date;
+  updated_at?: Date;
+};
+
+export class Round extends Model<RoundAttributes> implements RoundAttributes {
   declare id: CreationOptional<string>;
   declare starts_at: Date;
   declare ends_at: Date;
   declare credit_cost: CreationOptional<number>;
   declare total_credits: CreationOptional<number>;
   declare src_img_url: string;
-  declare created_at: CreationOptional<Date>;
-  declare updated_at: CreationOptional<Date>;
+  declare readonly created_at: CreationOptional<Date>;
+  declare readonly updated_at: CreationOptional<Date>;
 
   static initModel(sequelize: Sequelize): typeof Round {
     Round.init(
