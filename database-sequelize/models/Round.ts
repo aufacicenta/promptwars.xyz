@@ -8,6 +8,7 @@ export class Round extends Model<InferAttributes<Round>, InferCreationAttributes
   declare ends_at: Date;
   declare credit_cost: CreationOptional<number>;
   declare total_credits: CreationOptional<number>;
+  declare src_img_url: string;
   declare created_at: CreationOptional<Date>;
   declare updated_at: CreationOptional<Date>;
 
@@ -36,6 +37,10 @@ export class Round extends Model<InferAttributes<Round>, InferCreationAttributes
           type: DataTypes.INTEGER,
           allowNull: false,
           defaultValue: 0,
+        },
+        src_img_url: {
+          type: DataTypes.STRING,
+          allowNull: false,
         },
         created_at: {
           type: DataTypes.DATE,
