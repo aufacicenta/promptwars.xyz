@@ -94,6 +94,7 @@ export class Transaction extends Model<InferAttributes<Transaction>, InferCreati
       {
         sequelize,
         tableName: "transactions",
+        timestamps: false,
       },
     );
   }

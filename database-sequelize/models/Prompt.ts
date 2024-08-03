@@ -65,7 +65,7 @@ export class Prompt extends Model<InferAttributes<Prompt>, InferCreationAttribut
       {
         sequelize,
         tableName: "prompts",
-        timestamps: true,
+        timestamps: false,
         underscored: true,
       },
     );

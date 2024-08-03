@@ -54,6 +54,7 @@ export class Wallet extends Model<InferAttributes<Wallet>, InferCreationAttribut
       {
         sequelize,
         tableName: "wallets",
+        timestamps: false,
       },
     );
   }

@@ -37,7 +37,7 @@ export class TextToImg extends Model<InferAttributes<TextToImg>, InferCreationAt
       {
         sequelize,
         tableName: "text_to_img",
-        timestamps: true,
+        timestamps: false,
         underscored: true,
       },
     );

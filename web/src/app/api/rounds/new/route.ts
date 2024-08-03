@@ -2,6 +2,8 @@ import { RoundAttributes } from "@promptwars/database/models/Round";
 import { NextRequest, NextResponse } from "next/server";
 import { parseISO, isValid } from "date-fns";
 import unsplash from "@/lib/unsplash";
+import db from "@/lib/sequelize";
+import ipfs from "@/lib/ipfs";
 import { ApiResponse } from "unsplash-js/dist/helpers/response";
 import { Random } from "unsplash-js/dist/methods/photos/types";
 
@@ -22,24 +24,22 @@ export async function POST(request: NextRequest) {
 
     const image = await unsplash.serverApi.photos.getRandom({ orientation: "squarish" });
 
-    // @TODO upload to IPFS
-    // const imageUri = await ipfs.getFileAsIPFSUrl("https://source.unsplash.com/random/512x512");
-    // const imageUri = "https://source.unsplash.com/random/512x512";
-    const imageUri = (image as ApiResponse<Random>).response?.urls.regular;
+    const src_img_url = await ipfs.getFileAsIPFSUrl((image as ApiResponse<Random>).response?.urls.regular!);
 
     const roundAttributes: RoundAttributes = {
       starts_at: startsAtUTC,
       ends_at: endsAtUTC,
       credit_cost: credit_cost || 1,
       total_credits: total_credits || 0,
-      src_img_url: imageUri!,
+      src_img_url,
     };
 
-    // @TODO create the new Round in DB
-    // const newRound = await Round.create(roundAttributes);
+    const { Round } = await db.load();
 
-    return NextResponse.json(roundAttributes);
-    // return NextResponse.json(newRound);
+    const newRound = await Round.create(roundAttributes);
+
+    // return NextResponse.json(roundAttributes);
+    return NextResponse.json(newRound.toJSON());
   } catch (error) {
     console.error("Error creating new round:", error);
     return NextResponse.json({ error: "Failed to create new round" }, { status: 500 });

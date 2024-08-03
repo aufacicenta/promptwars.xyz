@@ -67,7 +67,7 @@ export class Round extends Model<RoundAttributes> implements RoundAttributes {
       {
         sequelize,
         tableName: "rounds",
-        timestamps: true,
+        timestamps: false,
         underscored: true,
       },
     );
@@ -75,7 +75,6 @@ export class Round extends Model<RoundAttributes> implements RoundAttributes {
   }
 
   static associate() {
-    // Define associations here
     Round.hasMany(RoundResult, { foreignKey: "round_id" });
   }
 

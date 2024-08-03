@@ -54,6 +54,7 @@ export class Credit extends Model<InferAttributes<Credit>, InferCreationAttribut
       {
         sequelize,
         tableName: "credits",
+        timestamps: false,
       },
     );
   }

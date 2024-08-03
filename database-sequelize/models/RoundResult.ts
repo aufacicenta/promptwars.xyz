@@ -50,7 +50,7 @@ export class RoundResult extends Model<InferAttributes<RoundResult>, InferCreati
       {
         sequelize,
         tableName: "round_results",
-        timestamps: true,
+        timestamps: false,
         underscored: true,
       },
     );
