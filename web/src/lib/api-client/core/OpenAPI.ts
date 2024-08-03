@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import { apiOrigin } from "@/hooks/useRoutes/useRoutes";
+import { apiOrigin, origin } from "@/hooks/useRoutes/useRoutes";
 import type { ApiRequestOptions } from "./ApiRequestOptions";
 
 type Resolver<T> = (options: ApiRequestOptions) => Promise<T>;
@@ -21,7 +21,7 @@ export type OpenAPIConfig = {
 };
 
 export const OpenAPI: OpenAPIConfig = {
-  BASE: apiOrigin,
+  BASE: `${origin}/api`,
   VERSION: "0.1.0",
   WITH_CREDENTIALS: false,
   CREDENTIALS: "include",

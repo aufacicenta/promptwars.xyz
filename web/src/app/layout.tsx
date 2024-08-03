@@ -5,7 +5,7 @@ import { Navbar } from "@/components/navbar/Navbar";
 import { EvmWalletSelectorContextController } from "@/context/wallet-selector/EvmWalletSelectorContextController";
 import { AuthorizationContextController } from "@/context/authorization/AuthorizationContextController";
 import { UserCreditsContextController } from "@/context/user-credits/UserCreditsContextController";
-import { WebsocketsContextController } from "@/context/websockets/WebsocketsContextController";
+import { RoundContextController } from "@/context/round/RoundContextController";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: "Challenge AI prompt engineers worldwide.",
 };
 
-export default function RootLayout({
+function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -24,16 +24,18 @@ export default function RootLayout({
       <body className={inter.className}>
         <AuthorizationContextController>
           <EvmWalletSelectorContextController>
-            <WebsocketsContextController>
-              <UserCreditsContextController>
+            <UserCreditsContextController>
+              <RoundContextController>
                 <Navbar />
 
                 <main>{children}</main>
-              </UserCreditsContextController>
-            </WebsocketsContextController>
+              </RoundContextController>
+            </UserCreditsContextController>
           </EvmWalletSelectorContextController>
         </AuthorizationContextController>
       </body>
     </html>
   );
 }
+
+export default RootLayout;

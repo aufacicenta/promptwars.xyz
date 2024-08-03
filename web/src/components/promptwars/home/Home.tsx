@@ -1,3 +1,5 @@
+"use client";
+
 import clsx from "clsx";
 import { HomeProps } from "./Home.types";
 import { Card, CardContent } from "@/components/ui/card";
@@ -5,15 +7,29 @@ import { Image } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useUserCreditsContext } from "@/context/user-credits/useUserCreditsContext";
+import { useRoundContext } from "@/context/round/useRoundContext";
+import { useEffect } from "react";
 
 export const Home: React.FC<HomeProps> = ({ className }) => {
+  const { credits } = useUserCreditsContext();
+
+  const { getCurrentRound, currentRound } = useRoundContext();
+
+  useEffect(() => {
+    getCurrentRound();
+  }, []);
+
   return (
     <div className={clsx(className, "flex min-h-screen flex-col justify-center")}>
       <section className="container">
         <div id="info-screen" className="w-full">
           <Card className="mx-auto w-60">
-            <CardContent className="flex h-16 flex-col justify-center p-0">
-              <h1 className="mb-0 text-center font-mono">PROMPT WARS</h1>
+            <CardContent className="flex h-fit flex-col justify-center">
+              <h4 className="mb-2 text-center font-mono">PROMPT WARS</h4>
+              <p className="mb-0 text-center font-mono text-sm text-muted-foreground">
+                Round #{currentRound ? currentRound.id : "Loading..."}
+              </p>
             </CardContent>
           </Card>
         </div>
@@ -42,7 +58,7 @@ export const Home: React.FC<HomeProps> = ({ className }) => {
                 </div>
                 <Separator orientation="vertical" />
                 <div>
-                  <span className="block">100</span>
+                  <span className="block">{credits.balance}</span>
                   <p className="mb-0 text-xs">
                     Credits (<span className="underline hover:cursor-pointer hover:text-primary">Top Up</span>)
                   </p>
