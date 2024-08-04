@@ -6,7 +6,7 @@ module.exports = {
     await queryInterface.createTable("text_to_img", {
       id: {
         type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
+        defaultValue: Sequelize.literal("uuid_generate_v4()"),
         primaryKey: true,
       },
       provider: {
@@ -20,12 +20,12 @@ module.exports = {
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.NOW,
+        defaultValue: Sequelize.literal("now()"),
       },
       updated_at: {
         type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.NOW,
+        defaultValue: Sequelize.literal("now()"),
       },
     });
   },

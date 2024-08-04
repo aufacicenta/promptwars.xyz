@@ -1,9 +1,24 @@
 import { Model, DataTypes, Sequelize, InferAttributes, InferCreationAttributes, CreationOptional } from "sequelize";
 
-export class TextToImg extends Model<InferAttributes<TextToImg>, InferCreationAttributes<TextToImg>> {
+export type TextToImgAttributes = {
+  id?: string;
+  provider: string;
+  model: string;
+  description: string;
+  example_img_url: string;
+  created_at?: Date;
+  updated_at?: Date;
+};
+
+export class TextToImg
+  extends Model<InferAttributes<TextToImg>, InferCreationAttributes<TextToImg>>
+  implements TextToImgAttributes
+{
   declare id: CreationOptional<string>;
   declare provider: string;
   declare model: string;
+  declare description: string;
+  declare example_img_url: string;
   declare created_at: CreationOptional<Date>;
   declare updated_at: CreationOptional<Date>;
 
@@ -20,6 +35,14 @@ export class TextToImg extends Model<InferAttributes<TextToImg>, InferCreationAt
           allowNull: false,
         },
         model: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        description: {
+          type: DataTypes.TEXT,
+          allowNull: false,
+        },
+        example_img_url: {
           type: DataTypes.STRING,
           allowNull: false,
         },
@@ -46,5 +69,10 @@ export class TextToImg extends Model<InferAttributes<TextToImg>, InferCreationAt
 
   static associate() {
     // Define associations here
+  }
+
+  getModelName(): string | null {
+    const match = this.model.match(/^(.+?)(?=:)/);
+    return match ? match[1] : null;
   }
 }

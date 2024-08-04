@@ -1,3 +1,5 @@
-import { Round } from "@promptwars/database/models";
+import { RoundAttributes } from "@promptwars/database/models/Round";
 
-export type CurrentRoundResponse = Round;
+export type CurrentRoundResponse = RoundAttributes & {
+  count: number;
+};

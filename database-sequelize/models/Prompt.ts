@@ -3,7 +3,20 @@ import { Round } from "./Round";
 import { User } from "./User";
 import { TextToImg } from "./TextToImg";
 
-export class Prompt extends Model<InferAttributes<Prompt>, InferCreationAttributes<Prompt>> {
+export type PromptAttributes = {
+  id?: string;
+  user_id: string;
+  round_id: string;
+  text_to_img_id: string;
+  prompt_text: string;
+  negative_prompt?: string | null;
+  image_url: string;
+  similarity_score?: number | null;
+  created_at?: Date;
+  updated_at?: Date;
+};
+
+export class Prompt extends Model<PromptAttributes, Omit<PromptAttributes, "id" | "created_at" | "updated_at">> {
   declare id: CreationOptional<string>;
   declare user_id: string;
   declare round_id: string;
@@ -73,7 +86,6 @@ export class Prompt extends Model<InferAttributes<Prompt>, InferCreationAttribut
   }
 
   static associate() {
-    // Define associations here
     Prompt.belongsTo(Round, { foreignKey: "round_id" });
     Prompt.belongsTo(User, { foreignKey: "user_id" });
     Prompt.belongsTo(TextToImg, { foreignKey: "text_to_img_id" });

@@ -14,7 +14,14 @@ export async function GET(_request: NextRequest) {
       return NextResponse.json({ error: "No rounds found" }, { status: 404 });
     }
 
-    return NextResponse.json<CurrentRoundResponse>(currentRound.toJSON());
+    const count = await Round.count();
+
+    const round = {
+      ...currentRound.toJSON(),
+      count,
+    };
+
+    return NextResponse.json<CurrentRoundResponse>(round);
   } catch (error) {
     console.error("Error creating new round:", error);
     return NextResponse.json({ error: "Failed to create new round" }, { status: 500 });

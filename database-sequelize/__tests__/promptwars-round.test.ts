@@ -26,6 +26,8 @@ describe("PromptWars Round", () => {
     textToImg = await TextToImg.create({
       model: "test-ai-model",
       provider: "test-ai-provider",
+      description: "description",
+      example_img_url: "example.png",
     });
 
     // Create 10 users

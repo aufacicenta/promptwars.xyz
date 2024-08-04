@@ -6,6 +6,7 @@ import { EvmWalletSelectorContextController } from "@/context/wallet-selector/Ev
 import { AuthorizationContextController } from "@/context/authorization/AuthorizationContextController";
 import { UserCreditsContextController } from "@/context/user-credits/UserCreditsContextController";
 import { RoundContextController } from "@/context/round/RoundContextController";
+import { PromptContextController } from "@/context/prompt/PromptContextController";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,9 +27,11 @@ function RootLayout({
           <EvmWalletSelectorContextController>
             <UserCreditsContextController>
               <RoundContextController>
-                <Navbar />
+                <PromptContextController>
+                  <Navbar />
 
-                <main>{children}</main>
+                  <main>{children}</main>
+                </PromptContextController>
               </RoundContextController>
             </UserCreditsContextController>
           </EvmWalletSelectorContextController>

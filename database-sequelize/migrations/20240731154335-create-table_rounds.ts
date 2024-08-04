@@ -6,7 +6,7 @@ module.exports = {
     await queryInterface.createTable("rounds", {
       id: {
         type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
+        defaultValue: Sequelize.literal("uuid_generate_v4()"),
         primaryKey: true,
       },
       starts_at: {
