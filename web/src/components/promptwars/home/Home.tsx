@@ -42,7 +42,7 @@ export const Home: React.FC<HomeProps> = ({ className }) => {
           <Card className="mx-auto w-60">
             <CardContent className="flex h-fit flex-col justify-center">
               <h4 className="mb-2 text-center font-mono">
-                <Countdown date={date.parseDateString(currentRound?.ends_at.toString() || new Date().toString())} />
+                <Countdown date={date.parseDateString(currentRound?.ends_at.toString() || new Date().toISOString())} />
               </h4>
               <p className="mb-0 text-center font-mono text-sm text-muted-foreground">
                 Round #{currentRound ? currentRound.count : "Loading..."}
@@ -144,7 +144,7 @@ export const Home: React.FC<HomeProps> = ({ className }) => {
                 <TableBody>
                   {promptsByRoundId.map((prompt) => (
                     <TableRow key={prompt.id}>
-                      <TableCell>{prompt.similarity_score}</TableCell>
+                      <TableCell>{prompt.similarity_score?.toPrecision(2).toString()}</TableCell>
                       <TableCell className="font-medium">{prompt.user_id}</TableCell>
                       <TableCell>{`${prompt.TextToImg?.provider}/${regexp.getAiModelNameOnly(prompt.TextToImg?.model || "")}`}</TableCell>
                     </TableRow>

@@ -5,6 +5,7 @@ import replicate from "@/lib/replicate";
 import { SubmitPromptRequest } from "@/lib/api-client/models/Prompt";
 import { PromptAttributes } from "@promptwars/database/models/Prompt";
 import ipfs from "@/lib/ipfs";
+import { PromptsService } from "@/lib/api-client/services/PromptsService";
 
 export async function GET(request: NextRequest) {
   try {
@@ -39,7 +40,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body: SubmitPromptRequest = await request.json();
-    const { textToImgModelId, prompt, roundId: round_id } = body;
+    const { textToImgModelId: text_to_img_id, prompt, roundId: round_id } = body;
 
     const authHeader = request.headers.get("authorization");
 
@@ -68,7 +69,7 @@ export async function POST(request: NextRequest) {
 
     // @TODO check if User has enough credits to play
 
-    const model = await TextToImg.findByPk(textToImgModelId);
+    const model = await TextToImg.findByPk(text_to_img_id);
 
     const output = (await replicate.client.run(`${model?.provider}/${model?.model}`, {
       input: {
@@ -89,21 +90,22 @@ export async function POST(request: NextRequest) {
 
     const image_url = await ipfs.getFileAsIPFSUrl(output[0]);
 
-    // @TODO compare the images with the local Python API and get the score
-    const similarity_score = 0;
+    const currentRound = await Round.findByPk(round_id);
+    const srcImgUrl = currentRound?.src_img_url;
+
+    const similarityScoreResult = await PromptsService.getSimilarityScore(srcImgUrl!, image_url);
+    const similarity_score = similarityScoreResult.similarity_score;
 
     const promptAttributes: PromptAttributes = {
       round_id,
       user_id,
-      text_to_img_id: textToImgModelId,
+      text_to_img_id,
       image_url,
       prompt_text: prompt,
       similarity_score,
     };
 
-    const newPrompt = await Prompt.create(promptAttributes);
-
-    const currentRound = await Round.findByPk(newPrompt.round_id);
+    await Prompt.create(promptAttributes);
     await currentRound!.updateTotalCredits();
 
     const roundPrompts = await Prompt.findAll({

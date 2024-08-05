@@ -8,3 +8,9 @@ export type SubmitPromptRequest = z.infer<typeof CreatePromptFormSchema> & {
 
 export type GetAllPromptsByRoundIdResponse = PromptAttributes[];
 export type SubmitPromptResponse = PromptAttributes[];
+
+export interface SimilarityScoreResponse {
+  src_img_url: string;
+  img_url: string;
+  similarity_score: number;
+}

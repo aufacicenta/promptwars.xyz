@@ -6,10 +6,37 @@ import { PromptAttributes } from "@promptwars/database/models/Prompt";
 import type { CancelablePromise } from "../core/CancelablePromise";
 import { OpenAPI } from "../core/OpenAPI";
 import { request as __request } from "../core/request";
-import { GetAllPromptsByRoundIdResponse, SubmitPromptRequest, SubmitPromptResponse } from "../models/Prompt";
+import {
+  GetAllPromptsByRoundIdResponse,
+  SimilarityScoreResponse,
+  SubmitPromptRequest,
+  SubmitPromptResponse,
+} from "../models/Prompt";
 import supabase from "@/lib/supabase";
+import { apiOrigin } from "@/hooks/useRoutes/useRoutes";
 
 export class PromptsService {
+  /**
+   * Get similarity score between two images
+   * @param srcImgUrl URL of the source image
+   * @param imgUrl URL of the image to compare
+   * @returns Promise<SimilarityScoreResponse> The similarity score between the two images
+   * @throws ApiError
+   */
+  public static async getSimilarityScore(
+    srcImgUrl: string,
+    imgUrl: string,
+  ): CancelablePromise<SimilarityScoreResponse> {
+    OpenAPI.BASE = apiOrigin;
+    return __request(OpenAPI, {
+      method: "GET",
+      url: `/prompts/similarity-score`,
+      query: {
+        src_img_url: srcImgUrl,
+        img_url: imgUrl,
+      },
+    });
+  }
   /**
    * Get all prompts by roundId
    * @returns Promise<SubmitPromptResponse> All the prompts from this round
