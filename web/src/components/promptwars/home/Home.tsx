@@ -1,5 +1,6 @@
 "use client";
 
+import Countdown from "react-countdown";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import clsx from "clsx";
@@ -18,6 +19,7 @@ import { useEffect } from "react";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Coins } from "lucide-react";
 import currency from "@/lib/currency";
+import date from "@/lib/date";
 
 export const Home: React.FC<HomeProps> = ({ className }) => {
   const { currentRound } = useRoundContext();
@@ -34,12 +36,14 @@ export const Home: React.FC<HomeProps> = ({ className }) => {
   }, [currentRound]);
 
   return (
-    <div className={clsx(className, "flex min-h-screen flex-col justify-center py-24")}>
+    <div className={clsx(className, "flex min-h-screen flex-col justify-center py-32")}>
       <section className="container">
         <div id="info-screen" className="w-full">
           <Card className="mx-auto w-60">
             <CardContent className="flex h-fit flex-col justify-center">
-              <h4 className="mb-2 text-center font-mono">PROMPT WARS</h4>
+              <h4 className="mb-2 text-center font-mono">
+                <Countdown date={date.parseDateString(currentRound?.ends_at.toString() || new Date().toString())} />
+              </h4>
               <p className="mb-0 text-center font-mono text-sm text-muted-foreground">
                 Round #{currentRound ? currentRound.count : "Loading..."}
               </p>

@@ -22,7 +22,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Invalid date format" }, { status: 400 });
     }
 
-    const image = await unsplash.serverApi.photos.getRandom({ orientation: "squarish" });
+    const image = await unsplash.serverApi.photos.getRandom({
+      orientation: "squarish",
+      topicIds: unsplash.topics.map((t) => t.id),
+    });
 
     const src_img_url = await ipfs.getFileAsIPFSUrl((image as ApiResponse<Random>).response?.urls.regular!);
 
