@@ -6,4 +6,5 @@ export type SubmitPromptRequest = z.infer<typeof CreatePromptFormSchema> & {
   roundId: PromptAttributes["round_id"];
 };
 
+export type GetAllPromptsByRoundIdResponse = PromptAttributes[];
 export type SubmitPromptResponse = PromptAttributes[];

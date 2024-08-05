@@ -71,6 +71,7 @@ export class Round extends Model<RoundAttributes> implements RoundAttributes {
         underscored: true,
       },
     );
+
     return Round;
   }
 
@@ -90,6 +91,7 @@ export class Round extends Model<RoundAttributes> implements RoundAttributes {
       where: { round_id: this.id },
       attributes: ["user_id"],
     });
+
     return results.every((result) => result.user_id !== null);
   }
 

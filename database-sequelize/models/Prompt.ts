@@ -1,7 +1,7 @@
 import { Model, DataTypes, Sequelize, InferAttributes, InferCreationAttributes, CreationOptional } from "sequelize";
 import { Round } from "./Round";
 import { User } from "./User";
-import { TextToImg } from "./TextToImg";
+import { TextToImg, TextToImgAttributes } from "./TextToImg";
 
 export type PromptAttributes = {
   id?: string;
@@ -14,6 +14,7 @@ export type PromptAttributes = {
   similarity_score?: number | null;
   created_at?: Date;
   updated_at?: Date;
+  TextToImg?: TextToImgAttributes;
 };
 
 export class Prompt extends Model<PromptAttributes, Omit<PromptAttributes, "id" | "created_at" | "updated_at">> {

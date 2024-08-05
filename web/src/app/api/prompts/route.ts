@@ -6,6 +6,36 @@ import { SubmitPromptRequest } from "@/lib/api-client/models/Prompt";
 import { PromptAttributes } from "@promptwars/database/models/Prompt";
 import ipfs from "@/lib/ipfs";
 
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const roundId = searchParams.get("roundId");
+
+    if (!roundId) {
+      throw new Error("Round ID is required");
+    }
+
+    const { Prompt, TextToImg } = await db.load();
+
+    const prompts = await Prompt.findAll({
+      where: {
+        round_id: roundId,
+      },
+      include: [
+        {
+          model: TextToImg,
+          attributes: ["id", "provider", "model"],
+        },
+      ],
+    });
+
+    return NextResponse.json(prompts);
+  } catch (error) {
+    console.error("Error fetching prompts:", error);
+    return NextResponse.json({ error: "Failed to fetch prompts" }, { status: 500 });
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body: SubmitPromptRequest = await request.json();
@@ -34,7 +64,9 @@ export async function POST(request: NextRequest) {
 
     const user_id = user?.id!;
 
-    const { Prompt, TextToImg } = await db.load();
+    const { Prompt, TextToImg, Round } = await db.load();
+
+    // @TODO check if User has enough credits to play
 
     const model = await TextToImg.findByPk(textToImgModelId);
 
@@ -69,7 +101,10 @@ export async function POST(request: NextRequest) {
       similarity_score,
     };
 
-    await Prompt.create(promptAttributes);
+    const newPrompt = await Prompt.create(promptAttributes);
+
+    const currentRound = await Round.findByPk(newPrompt.round_id);
+    await currentRound!.updateTotalCredits();
 
     const roundPrompts = await Prompt.findAll({
       where: {

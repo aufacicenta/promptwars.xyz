@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { starts_at, ends_at, credit_cost, total_credits } = body;
 
-    // @TODO check if current round exists
+    // @TODO check if current round is still ongoing
 
     // Validate and parse date strings to UTC Date objects using date-fns
     const startsAtUTC = parseISO(starts_at);
@@ -34,11 +34,20 @@ export async function POST(request: NextRequest) {
       src_img_url,
     };
 
-    const { Round } = await db.load();
+    const { Round, RoundResult } = await db.load();
 
     const newRound = await Round.create(roundAttributes);
 
-    // return NextResponse.json(roundAttributes);
+    const winnerDistributions = [0.7, 0.2, 0.1]; // default winner distribution
+    await Promise.all(
+      winnerDistributions.map((distribution) =>
+        RoundResult.create({
+          round_id: newRound.id,
+          winner_distribution: distribution,
+        }),
+      ),
+    );
+
     return NextResponse.json(newRound.toJSON());
   } catch (error) {
     console.error("Error creating new round:", error);

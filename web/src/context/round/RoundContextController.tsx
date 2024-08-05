@@ -12,7 +12,7 @@ export const RoundContextController = ({ children }: RoundContextControllerProps
   const getCurrentRound = async () => {
     try {
       const round = await RoundsService.getCurrentRound();
-      console.log({ round });
+
       setCurrentRound(round);
     } catch (error) {
       console.error("Error fetching current round:", error);

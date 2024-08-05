@@ -2,6 +2,16 @@ import { Model, DataTypes, Sequelize, InferAttributes, InferCreationAttributes, 
 import { Round } from "./Round";
 import { User } from "./User";
 
+export type RoundResultAttributes = {
+  id?: string;
+  round_id: string;
+  user_id: string | null;
+  winner_distribution: number;
+  credits_earned?: number;
+  created_at?: Date;
+  updated_at?: Date;
+};
+
 export class RoundResult extends Model<InferAttributes<RoundResult>, InferCreationAttributes<RoundResult>> {
   declare id: CreationOptional<string>;
   declare round_id: string;

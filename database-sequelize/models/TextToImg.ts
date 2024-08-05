@@ -64,6 +64,7 @@ export class TextToImg
         underscored: true,
       },
     );
+
     return TextToImg;
   }
 

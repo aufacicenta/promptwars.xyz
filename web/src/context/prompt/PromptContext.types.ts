@@ -1,5 +1,6 @@
-import { SubmitPromptRequest } from "@/lib/api-client/models/Prompt";
+import { GetAllPromptsByRoundIdResponse, SubmitPromptRequest } from "@/lib/api-client/models/Prompt";
 import { AiModelsTextToImgResponse } from "@/lib/api-client/models/TextToImg";
+import { PromptAttributes } from "@promptwars/database/models/Prompt";
 import { ReactNode } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
@@ -27,7 +28,9 @@ export type PromptContextControllerActions = {
 export type PromptContextType = {
   actions: PromptContextControllerActions;
   textToImgModels: AiModelsTextToImgResponse[];
+  promptsByRoundId: GetAllPromptsByRoundIdResponse;
   form: UseFormReturn<z.infer<typeof CreatePromptFormSchema>>;
+  getAllPromptsByRoundId: (_roundId: PromptAttributes["round_id"]) => Promise<void>;
   getTextToImgModels: () => Promise<void>;
   submitPrompt: (_data: SubmitPromptRequest) => Promise<void>;
 };
