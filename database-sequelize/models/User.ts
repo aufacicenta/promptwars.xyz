@@ -3,6 +3,12 @@ import { Credit } from "./Credit";
 import { Wallet } from "./Wallet";
 import { Transaction } from "./Transaction";
 
+export type UserAttributes = {
+  id?: string;
+  created_at?: Date;
+  updated_at?: Date;
+};
+
 export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
   declare id: CreationOptional<string>;
   declare created_at: CreationOptional<Date>;

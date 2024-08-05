@@ -3,40 +3,24 @@
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import clsx from "clsx";
-import { FormSchema, HomeProps } from "./Home.types";
+import { HomeProps } from "./Home.types";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useRoundContext } from "@/context/round/useRoundContext";
-import { useEffect } from "react";
 import { AiModelSelector } from "@/components/promptwars/ai-model-selector/AiModelSelector";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { usePromptContext } from "@/context/prompt/usePromptContext";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { CreatePromptFormSchema } from "@/context/prompt/PromptContext.types";
 
 export const Home: React.FC<HomeProps> = ({ className }) => {
-  const { getCurrentRound, currentRound } = useRoundContext();
-  const { submitPrompt, actions } = usePromptContext();
+  const { currentRound } = useRoundContext();
+  const { submitPrompt, actions, form } = usePromptContext();
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-  });
-
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  function onSubmit(data: z.infer<typeof CreatePromptFormSchema>) {
     submitPrompt(data);
   }
-
-  useEffect(() => {
-    getCurrentRound();
-  }, []);
-
-  useEffect(() => {
-    if (!currentRound) return;
-
-    form.setValue("roundId", currentRound?.id!);
-  }, [currentRound]);
 
   return (
     <div className={clsx(className, "flex min-h-screen flex-col justify-center")}>
@@ -92,7 +76,12 @@ export const Home: React.FC<HomeProps> = ({ className }) => {
                         render={({ field }) => (
                           <FormItem>
                             <FormControl>
-                              <Textarea placeholder="Write your prompt down." className="mb-3" {...field} />
+                              <Textarea
+                                placeholder="Write your prompt down."
+                                className="mb-3"
+                                {...field}
+                                disabled={actions.submitPrompt.isLoading}
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -101,8 +90,9 @@ export const Home: React.FC<HomeProps> = ({ className }) => {
 
                       <div className="text-right">
                         <Button type="submit" disabled={actions.submitPrompt.isLoading}>
-                          {actions.submitPrompt.isLoading && (<ReloadIcon className="mr-2 h-4 w-4 animate-spin" />)}
-                          Submit</Button>
+                          {actions.submitPrompt.isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
+                          Submit
+                        </Button>
                       </div>
                     </div>
                   </div>

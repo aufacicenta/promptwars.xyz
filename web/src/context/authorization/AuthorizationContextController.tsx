@@ -7,10 +7,11 @@ import {
   AuthorizationContextControllerProps,
   AuthorizationContextType,
   CreateUserFormSchema,
+  SignInFormSchema,
 } from "./AuthorizationContext.types";
 import { AuthorizationContext } from "./AuthorizationContext";
 import supabase from "@/lib/supabase";
-import { CreateUserRequest } from "@/lib/api-client/models/User";
+import { CreateUserRequest, SignInRequest } from "@/lib/api-client/models/User";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,13 +21,22 @@ import { User } from "@supabase/supabase-js";
 export const AuthorizationContextController = ({ children }: AuthorizationContextControllerProps) => {
   const [_hasThirdPartyCookieAccess, setThirdPartyCookieAccess] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | undefined>(undefined);
+  const [isSignUpDialogOpen, setSignUpDialogOpen] = useState(false);
+  const [isSignInDialogOpen, setSignInDialogOpen] = useState(false);
   const [actions, setActions] = useState<AuthorizationContextControllerActions>({
+    signIn: {
+      isLoading: false,
+    },
     signUp: {
       isLoading: false,
     },
     getCurrentUser: {
       isLoading: false,
     },
+  });
+
+  const signInForm = useForm<z.infer<typeof SignInFormSchema>>({
+    resolver: zodResolver(SignInFormSchema),
   });
 
   const signUpForm = useForm<z.infer<typeof CreateUserFormSchema>>({
@@ -55,7 +65,11 @@ export const AuthorizationContextController = ({ children }: AuthorizationContex
 
       signUpForm.reset();
 
-      getCurrentUser();
+      if (data?.user?.id) {
+        setCurrentUser(data.user);
+      } else {
+        getCurrentUser();
+      }
     } catch (error) {
       console.error(error);
     }
@@ -63,6 +77,41 @@ export const AuthorizationContextController = ({ children }: AuthorizationContex
     setActions((prev) => ({
       ...prev,
       signUp: {
+        isLoading: false,
+      },
+    }));
+  }
+
+  async function signIn({ email, password }: SignInRequest) {
+    setActions((prev) => ({
+      ...prev,
+      signIn: {
+        isLoading: true,
+      },
+    }));
+
+    try {
+      const { data, error } = await supabase.client.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      console.log({ data });
+
+      signInForm.reset();
+
+      getCurrentUser();
+    } catch (error) {
+      console.error(error);
+    }
+
+    setActions((prev) => ({
+      ...prev,
+      signIn: {
         isLoading: false,
       },
     }));
@@ -82,15 +131,19 @@ export const AuthorizationContextController = ({ children }: AuthorizationContex
         error,
       } = await supabase.client.auth.getUser();
 
-      if (!user) {
-        throw new Error("Failed to fetch current user");
-      }
-
       if (error) {
         throw error;
       }
 
+      if (!user) {
+        throw new Error("Failed to fetch current user");
+      }
+
+      console.log({ user });
+
       setCurrentUser(user);
+      setSignUpDialogOpen(false);
+      setSignInDialogOpen(false);
     } catch (error) {
       console.error(error);
     }
@@ -138,8 +191,14 @@ export const AuthorizationContextController = ({ children }: AuthorizationContex
   const props: AuthorizationContextType = {
     signUp,
     signUpForm,
+    signIn,
+    signInForm,
     currentUser,
     actions,
+    isSignUpDialogOpen,
+    setSignUpDialogOpen,
+    isSignInDialogOpen,
+    setSignInDialogOpen,
   };
 
   return <AuthorizationContext.Provider value={props}>{children}</AuthorizationContext.Provider>;
