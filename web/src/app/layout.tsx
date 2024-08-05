@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar/Navbar";
-import { EvmWalletSelectorContextController } from "@/context/wallet-selector/EvmWalletSelectorContextController";
 import { AuthorizationContextController } from "@/context/authorization/AuthorizationContextController";
 import { UserCreditsContextController } from "@/context/user-credits/UserCreditsContextController";
 import { RoundContextController } from "@/context/round/RoundContextController";
@@ -24,17 +23,15 @@ function RootLayout({
     <html lang="en" className="dark">
       <body className={inter.className}>
         <AuthorizationContextController>
-          <EvmWalletSelectorContextController>
-            <UserCreditsContextController>
-              <RoundContextController>
-                <PromptContextController>
-                  <Navbar />
+          <UserCreditsContextController>
+            <RoundContextController>
+              <PromptContextController>
+                <Navbar />
 
-                  <main>{children}</main>
-                </PromptContextController>
-              </RoundContextController>
-            </UserCreditsContextController>
-          </EvmWalletSelectorContextController>
+                <main>{children}</main>
+              </PromptContextController>
+            </RoundContextController>
+          </UserCreditsContextController>
         </AuthorizationContextController>
       </body>
     </html>

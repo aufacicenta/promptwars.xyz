@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import { UserCreditsContext } from "./UserCreditsContext";
 import {
@@ -7,9 +7,7 @@ import {
   UserCreditsContextControllerProps,
   UserCreditsContextType,
 } from "./UserCreditsContext.types";
-import { useAccount } from "wagmi";
-import { CreditBalanceResponse, CreditsService, UserGetResponse, UsersService } from "@/lib/api-client";
-import { useWebsocketsContext } from "../websockets/useWebsocketsContext";
+import { CreditBalanceResponse, UserGetResponse } from "@/lib/api-client";
 
 export const UserCreditsContextController = ({ children }: UserCreditsContextControllerProps) => {
   const [user, setUser] = useState<UserGetResponse | undefined>();
@@ -23,9 +21,6 @@ export const UserCreditsContextController = ({ children }: UserCreditsContextCon
     },
   });
 
-  const { isConnected, address } = useAccount();
-  const { connectWebSocket, closeWebSocket } = useWebsocketsContext();
-
   const refreshCreditsBalance = useCallback(async () => {
     setActions((prev) => ({
       ...prev,
@@ -35,11 +30,6 @@ export const UserCreditsContextController = ({ children }: UserCreditsContextCon
     }));
 
     try {
-      const __user = await UsersService.getUserUsersEthereumAddressGet(address!);
-      setUser(__user);
-
-      const __credits = await CreditsService.getCreditBalanceCreditsUserIdGet(__user.id);
-      setCredits(__credits);
     } catch (error) {
       console.error(error);
     }
@@ -50,26 +40,7 @@ export const UserCreditsContextController = ({ children }: UserCreditsContextCon
         isLoading: false,
       },
     }));
-  }, [address]);
-
-  useEffect(() => {
-    connectWebSocket((data) => {
-      if (data.user_id === user?.id) {
-        console.log(`Received ${data.credit_amount} credits`);
-        setCredits((prev) => ({ ...prev, balance: data.new_balance }));
-      }
-    });
-
-    return () => {
-      closeWebSocket();
-    };
-  }, [connectWebSocket, closeWebSocket, user]);
-
-  useEffect(() => {
-    if (!isConnected || !address) return;
-
-    refreshCreditsBalance();
-  }, [isConnected, address, refreshCreditsBalance]);
+  }, []);
 
   const props: UserCreditsContextType = {
     credits,
