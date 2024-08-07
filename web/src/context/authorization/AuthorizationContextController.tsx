@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { User } from "@supabase/supabase-js";
+import { useToast } from "@/components/ui/use-toast";
 
 export const AuthorizationContextController = ({ children }: AuthorizationContextControllerProps) => {
   const [_hasThirdPartyCookieAccess, setThirdPartyCookieAccess] = useState(false);
@@ -24,6 +25,9 @@ export const AuthorizationContextController = ({ children }: AuthorizationContex
   const [isSignUpDialogOpen, setSignUpDialogOpen] = useState(false);
   const [isSignInDialogOpen, setSignInDialogOpen] = useState(false);
   const [actions, setActions] = useState<AuthorizationContextControllerActions>({
+    signOut: {
+      isLoading: false,
+    },
     signIn: {
       isLoading: false,
     },
@@ -34,6 +38,8 @@ export const AuthorizationContextController = ({ children }: AuthorizationContex
       isLoading: false,
     },
   });
+
+  const { toast } = useToast();
 
   const signInForm = useForm<z.infer<typeof SignInFormSchema>>({
     resolver: zodResolver(SignInFormSchema),
@@ -63,10 +69,19 @@ export const AuthorizationContextController = ({ children }: AuthorizationContex
 
       console.log({ data });
 
-      signUpForm.reset();
+      signUpForm.reset({
+        email: "",
+        password: "",
+      });
 
       if (data?.user?.id) {
         setCurrentUser(data.user);
+
+        toast({
+          title: "Email Verification Sent!",
+          description: "Confirm your email address and get 3 FREE credits to play!",
+          variant: "accent",
+        });
       } else {
         getCurrentUser();
       }
@@ -117,6 +132,34 @@ export const AuthorizationContextController = ({ children }: AuthorizationContex
     }));
   }
 
+  async function signOut() {
+    setActions((prev) => ({
+      ...prev,
+      signOut: {
+        isLoading: true,
+      },
+    }));
+
+    try {
+      const { error } = await supabase.client.auth.signOut();
+
+      if (error) {
+        throw error;
+      }
+
+      setCurrentUser(undefined);
+    } catch (error) {
+      console.error(error);
+    }
+
+    setActions((prev) => ({
+      ...prev,
+      signOut: {
+        isLoading: false,
+      },
+    }));
+  }
+
   async function getCurrentUser() {
     setActions((prev) => ({
       ...prev,
@@ -142,7 +185,6 @@ export const AuthorizationContextController = ({ children }: AuthorizationContex
       console.log({ user });
 
       setCurrentUser(user);
-      setSignUpDialogOpen(false);
       setSignInDialogOpen(false);
     } catch (error) {
       console.error(error);
@@ -193,6 +235,7 @@ export const AuthorizationContextController = ({ children }: AuthorizationContex
     signUpForm,
     signIn,
     signInForm,
+    signOut,
     currentUser,
     actions,
     isSignUpDialogOpen,

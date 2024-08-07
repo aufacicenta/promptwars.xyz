@@ -6,6 +6,7 @@ import { AuthorizationContextController } from "@/context/authorization/Authoriz
 import { UserCreditsContextController } from "@/context/user-credits/UserCreditsContextController";
 import { RoundContextController } from "@/context/round/RoundContextController";
 import { PromptContextController } from "@/context/prompt/PromptContextController";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,6 +30,8 @@ function RootLayout({
                 <Navbar />
 
                 <main>{children}</main>
+
+                <Toaster />
               </PromptContextController>
             </RoundContextController>
           </UserCreditsContextController>

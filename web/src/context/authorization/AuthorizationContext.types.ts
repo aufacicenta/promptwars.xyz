@@ -29,6 +29,7 @@ export const CreateUserFormSchema = z.object({
 export type AccessTokens = {};
 
 export type AuthorizationContextControllerActions = {
+  signOut: { isLoading: boolean };
   signIn: { isLoading: boolean };
   signUp: { isLoading: boolean };
   getCurrentUser: { isLoading: boolean };
@@ -49,4 +50,5 @@ export type AuthorizationContextType = {
   signInForm: UseFormReturn<z.infer<typeof SignInFormSchema>>;
   signIn: (_data: SignInRequest) => Promise<void>;
   signUp: (_data: CreateUserRequest) => Promise<void>;
+  signOut: () => Promise<void>;
 };

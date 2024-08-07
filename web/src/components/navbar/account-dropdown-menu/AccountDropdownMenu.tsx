@@ -23,6 +23,7 @@ export const AccountDropdownMenu: React.FC<AccountDropdownMenuProps> = () => {
     signUp,
     signIn,
     signInForm,
+    signOut,
     currentUser,
     actions,
     isSignUpDialogOpen,
@@ -69,7 +70,14 @@ export const AccountDropdownMenu: React.FC<AccountDropdownMenuProps> = () => {
             <DropdownMenuItem>Credits</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Log out</DropdownMenuItem>
+          <DropdownMenuItem
+            disabled={!currentUser}
+            onClick={() => {
+              signOut();
+            }}
+          >
+            Log out
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 

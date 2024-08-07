@@ -36,7 +36,7 @@ export const Home: React.FC<HomeProps> = ({ className }) => {
   }, [currentRound]);
 
   return (
-    <div className={clsx(className, "flex min-h-screen flex-col justify-center py-32")}>
+    <div className={clsx(className, "flex min-h-screen flex-col justify-center py-40")}>
       <section className="container">
         <div id="info-screen" className="w-full">
           <Card className="mx-auto w-60">
