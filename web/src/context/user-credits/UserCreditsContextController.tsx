@@ -7,13 +7,12 @@ import {
   UserCreditsContextControllerProps,
   UserCreditsContextType,
 } from "./UserCreditsContext.types";
-import { CreditBalanceResponse, UserGetResponse } from "@/lib/api-client";
+import { CreditBalanceResponse, CreditsService } from "@/lib/api-client";
 
 export const UserCreditsContextController = ({ children }: UserCreditsContextControllerProps) => {
-  const [user, setUser] = useState<UserGetResponse | undefined>();
   const [credits, setCredits] = useState<CreditBalanceResponse>({
     balance: 0,
-    wallet_address: null,
+    user_id: "",
   });
   const [actions, setActions] = useState<UserCreditContextActions>({
     refreshCreditsBalance: {
@@ -30,6 +29,11 @@ export const UserCreditsContextController = ({ children }: UserCreditsContextCon
     }));
 
     try {
+      const result = await CreditsService.getCreditBalanceByUserSession();
+
+      console.log({ result });
+
+      setCredits(result);
     } catch (error) {
       console.error(error);
     }
@@ -44,7 +48,6 @@ export const UserCreditsContextController = ({ children }: UserCreditsContextCon
 
   const props: UserCreditsContextType = {
     credits,
-    user,
     refreshCreditsBalance,
     actions,
   };

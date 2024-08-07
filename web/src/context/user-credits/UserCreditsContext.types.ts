@@ -1,4 +1,4 @@
-import { CreditBalanceResponse, UserGetResponse } from "@/lib/api-client";
+import { CreditBalanceResponse } from "@/lib/api-client";
 import { ReactNode } from "react";
 
 export type UserCreditsContextControllerProps = {
@@ -14,6 +14,5 @@ export type UserCreditContextActions = {
 export type UserCreditsContextType = {
   credits: CreditBalanceResponse;
   actions: UserCreditContextActions;
-  user?: UserGetResponse;
   refreshCreditsBalance: () => Promise<void>;
 };

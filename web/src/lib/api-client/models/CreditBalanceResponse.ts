@@ -3,7 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export type CreditBalanceResponse = {
-    balance: number;
-    wallet_address: (string | null);
+  user_id: string;
+  balance: number;
 };
-

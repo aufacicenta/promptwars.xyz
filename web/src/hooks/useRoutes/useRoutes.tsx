@@ -9,7 +9,7 @@ export const apiOrigin = `${process.env.NEXT_PUBLIC_PROTOCOL_SCHEME}://${process
 export const apiOriginWS = `ws://${process.env.NEXT_PUBLIC_API_URL}`;
 
 export const routes = {
-  home: () => `/`,
+  home: () => `${origin}/`,
   marketplaces: {
     opensea: () => `https://opensea.io/collection/larskristo-hellheadz`,
     magiceden: () => `https://magiceden.io/collections/ethereum/0x853bdaa30cfd5a2ec1e1d75935ebca7a0e52626d`,
@@ -21,6 +21,11 @@ export const routes = {
   },
   socials: {
     discord: `https://discord.gg/y3GWNkRh`,
+  },
+  auth: {
+    signup: {
+      redirect: () => `${origin}/auth/signup/redirect`,
+    },
   },
   oauth: {
     discord: {
@@ -41,6 +46,11 @@ export const routes = {
     index: () => `/events`,
   },
   api: {
+    auth: {
+      signup: {
+        redirect: () => `${origin}/api/auth/signup/redirect`,
+      },
+    },
     discord: {
       verifyOwnership: () => `/api/discord/verify-ownership`,
     },

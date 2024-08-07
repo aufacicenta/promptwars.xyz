@@ -29,6 +29,7 @@ export class Credit extends Model<InferAttributes<Credit>, InferCreationAttribut
         user_id: {
           type: DataTypes.UUID,
           allowNull: false,
+          unique: true,
           references: {
             model: {
               tableName: "users",

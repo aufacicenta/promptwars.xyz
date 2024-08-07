@@ -18,6 +18,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { User } from "@supabase/supabase-js";
 import { useToast } from "@/components/ui/use-toast";
+import { useRoutes } from "@/hooks/useRoutes/useRoutes";
+import { AuthService } from "@/lib/api-client/services/AuthService";
+import { Button } from "@/components/ui/button";
 
 export const AuthorizationContextController = ({ children }: AuthorizationContextControllerProps) => {
   const [_hasThirdPartyCookieAccess, setThirdPartyCookieAccess] = useState(false);
@@ -34,10 +37,15 @@ export const AuthorizationContextController = ({ children }: AuthorizationContex
     signUp: {
       isLoading: false,
     },
+    signUpCallback: {
+      isLoading: false,
+    },
     getCurrentUser: {
       isLoading: false,
     },
   });
+
+  const routes = useRoutes();
 
   const { toast } = useToast();
 
@@ -48,6 +56,44 @@ export const AuthorizationContextController = ({ children }: AuthorizationContex
   const signUpForm = useForm<z.infer<typeof CreateUserFormSchema>>({
     resolver: zodResolver(CreateUserFormSchema),
   });
+
+  async function signUpCallback() {
+    setActions((prev) => ({
+      ...prev,
+      signUpCallback: {
+        isLoading: true,
+      },
+    }));
+
+    try {
+      const hash = window.location.hash.substring(1);
+      const searchParams = new URLSearchParams(hash);
+      const accessToken = searchParams.get("access_token");
+
+      if (!accessToken) {
+        throw new Error("No access_token is present in email confirmation redirect");
+      }
+
+      const result = await AuthService.onSignupEmailConfirmationCallback(accessToken!);
+
+      console.log({ result });
+    } catch (error) {
+      console.error(error);
+
+      toast({
+        title: "Signup Error",
+        description: "An error ocurred while verifying your email.",
+        action: <Button>Verify Again</Button>,
+      });
+    }
+
+    setActions((prev) => ({
+      ...prev,
+      signUpCallback: {
+        isLoading: false,
+      },
+    }));
+  }
 
   async function signUp({ email, password }: CreateUserRequest) {
     setActions((prev) => ({
@@ -61,6 +107,9 @@ export const AuthorizationContextController = ({ children }: AuthorizationContex
       const { data, error } = await supabase.client.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo: routes.auth.signup.redirect(),
+        },
       });
 
       if (error) {
@@ -231,6 +280,7 @@ export const AuthorizationContextController = ({ children }: AuthorizationContex
   }, []);
 
   const props: AuthorizationContextType = {
+    signUpCallback,
     signUp,
     signUpForm,
     signIn,
