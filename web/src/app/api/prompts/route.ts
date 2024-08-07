@@ -7,6 +7,8 @@ import { PromptAttributes } from "@promptwars/database/models/Prompt";
 import ipfs from "@/lib/ipfs";
 import { PromptsService } from "@/lib/api-client/services/PromptsService";
 
+// @TODO implement PUT endpoint to reveal a prompt game round
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -65,9 +67,27 @@ export async function POST(request: NextRequest) {
 
     const user_id = user?.id!;
 
-    const { Prompt, TextToImg, Round } = await db.load();
+    const { Prompt, TextToImg, Round, Credit } = await db.load();
 
-    // @TODO check if User has enough credits to play
+    const credits = await Credit.findOne({
+      where: {
+        user_id,
+      },
+    });
+
+    if (!credits) {
+      throw new Error("User has no credits record");
+    }
+
+    const currentRound = await Round.findByPk(round_id);
+
+    if (!currentRound) {
+      throw new Error(`Round ${round_id} does not exist`);
+    }
+
+    if (credits.balance < currentRound?.credit_cost!) {
+      throw new Error("Insufficient credits to play round");
+    }
 
     const model = await TextToImg.findByPk(text_to_img_id);
 
@@ -90,7 +110,6 @@ export async function POST(request: NextRequest) {
 
     const image_url = await ipfs.getFileAsIPFSUrl(output[0]);
 
-    const currentRound = await Round.findByPk(round_id);
     const srcImgUrl = currentRound?.src_img_url;
 
     const similarityScoreResult = await PromptsService.getSimilarityScore(srcImgUrl!, image_url);
@@ -107,6 +126,8 @@ export async function POST(request: NextRequest) {
 
     await Prompt.create(promptAttributes);
     await currentRound!.updateTotalCredits();
+
+    await credits.subtractBalance(currentRound?.credit_cost!);
 
     const roundPrompts = await Prompt.findAll({
       where: {

@@ -16,6 +16,8 @@ import { CircleUser } from "lucide-react";
 import { useAuthorizationContext } from "@/context/authorization/useAuthorizationContext";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import clsx from "clsx";
+import Link from "next/link";
+import { useRoutes } from "@/hooks/useRoutes/useRoutes";
 
 export const AccountDropdownMenu: React.FC<AccountDropdownMenuProps> = () => {
   const {
@@ -31,6 +33,8 @@ export const AccountDropdownMenu: React.FC<AccountDropdownMenuProps> = () => {
     isSignInDialogOpen,
     setSignInDialogOpen,
   } = useAuthorizationContext();
+
+  const routes = useRoutes();
 
   return (
     <>
@@ -67,7 +71,9 @@ export const AccountDropdownMenu: React.FC<AccountDropdownMenuProps> = () => {
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem>Credits</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={routes.profile.credits()}>Credits</Link>
+            </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem

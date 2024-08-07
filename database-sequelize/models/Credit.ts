@@ -67,4 +67,12 @@ export class Credit extends Model<InferAttributes<Credit>, InferCreationAttribut
       targetKey: "id",
     });
   }
+
+  async subtractBalance(amount: number): Promise<Credit> {
+    this.balance -= amount;
+
+    await this.save();
+
+    return this;
+  }
 }

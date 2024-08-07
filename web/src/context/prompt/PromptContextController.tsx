@@ -18,6 +18,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRoundContext } from "../round/useRoundContext";
 import { PromptAttributes } from "@promptwars/database/models/Prompt";
+import { useUserCreditsContext } from "../user-credits/useUserCreditsContext";
 
 export const PromptContextController = ({ children }: PromptContextControllerProps) => {
   const [textToImgModels, setTextToImgModels] = useState<AiModelsTextToImgResponse[] | []>([]);
@@ -27,6 +28,8 @@ export const PromptContextController = ({ children }: PromptContextControllerPro
       isLoading: false,
     },
   });
+
+  const { refreshCreditsBalance } = useUserCreditsContext();
 
   const { getCurrentRound, currentRound } = useRoundContext();
 
@@ -71,6 +74,8 @@ export const PromptContextController = ({ children }: PromptContextControllerPro
       form.reset({
         prompt: "",
       });
+
+      refreshCreditsBalance();
     } catch (error) {
       console.error(error);
     }

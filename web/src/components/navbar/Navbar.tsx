@@ -7,9 +7,13 @@ import { CreditsBalance } from "../promptwars/credits-balance/CreditsBalance";
 import { AccountDropdownMenu } from "./account-dropdown-menu/AccountDropdownMenu";
 import { PromptWarsLogo } from "../svg/PromptWarsLogo";
 import { useAuthorizationContext } from "@/context/authorization/useAuthorizationContext";
+import Link from "next/link";
+import { useRoutes } from "@/hooks/useRoutes/useRoutes";
 
 export const Navbar: React.FC<NavbarProps> = ({ className }) => {
   const { currentUser } = useAuthorizationContext();
+
+  const routes = useRoutes();
 
   return (
     <header className={clsx(className, "fixed top-0 z-30 w-screen border-b bg-background")}>
@@ -23,7 +27,9 @@ export const Navbar: React.FC<NavbarProps> = ({ className }) => {
 
       <section className="flex items-center justify-between px-4 py-3 sm:h-auto sm:border-0 sm:px-6">
         <div>
-          <PromptWarsLogo className="w-[112px]" />
+          <Link href={routes.home()}>
+            <PromptWarsLogo className="w-[112px]" />
+          </Link>
         </div>
 
         <div className="flex gap-4">
